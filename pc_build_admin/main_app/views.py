@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
+import requests
+import json
+
 import pyrebase
 
 import firebase_admin
@@ -30,7 +33,9 @@ storage = firebase.storage()
 
 def login(request):
     if 'user_id' in request.session:
-        return redirect('/homepage')
+        return redirect('/manage_products')
+    elif 'super_admin' in request.session:
+        return redirect('/manage_admins')
     else:
         return render(request, 'login.html')
 
@@ -42,12 +47,145 @@ def login_validation(request):
 
             user = auth_pyrebase.sign_in_with_email_and_password(email, password)
 
-            request.session['user_id'] = user['localId']
+            if email == 'pc.build.app.2021@gmail.com':
+                request.session['super_admin'] = user['localId']
+            else:
+                request.session['user_id'] = user['localId']
 
-            return render(request, 'login.html')
+            return HttpResponse('Success!')
         except:
             return HttpResponse('Invalid Email or Password!')
 
 
 def register(request):
     return render(request, 'register.html')
+
+def homepage(request):
+    return render(request, 'homepage.html')
+
+def orders(request):
+    return render(request, 'orders.html')
+
+def logout(request):
+    try:
+        if 'user_id' in request.session:
+            del request.session['user_id']
+        elif 'super_admin' in request.session:
+            del request.session['super_admin']
+    except:
+        return redirect('/')
+    return redirect('/')
+
+def manage_admins(request):
+    if 'user_id' in request.session:
+        return render(request, 'manage_products.html')
+    elif 'super_admin' in request.session:
+        users = firestoreDB.collection('admin_users').get()
+
+        user_data = []
+
+        for user in users:
+            value = user.to_dict()
+            user_data.append(value)
+
+        data = {
+            'user_data': user_data,
+        }
+
+        return render(request, 'manage_admins.html', data)
+    else:
+        return redirect('/')
+    
+
+def manage_products(request):
+    if 'user_id' in request.session or 'super_admin' in request.session:
+
+        products = firestoreDB.collection('products').get()
+
+        product_data = []
+
+        for product in products:
+            value = product.to_dict()
+            product_data.append(value)
+
+        data = {
+            'product_data': product_data,
+        }
+        return render(request, 'manage_products.html', data)
+    else:
+        return redirect('/')
+
+def register_admin_firebase(request):
+
+    email = request.POST.get('email')
+    password = request.POST.get('password')
+    confirm_password = request.POST.get('confirm_password')
+    first_name = request.POST.get('first_name')
+    last_name = request.POST.get('last_name')
+
+    if password == confirm_password:
+        try:
+            #register email and password to firebase auth
+            user = auth_pyrebase.create_user_with_email_and_password(email, password)
+           
+            doc_ref = firestoreDB.collection('admin_users').document(user['localId'])
+            doc_ref.set({
+                'user_id': user['localId'],
+                'email': email,
+                'password': password,
+                'first_name': first_name,
+                'last_name': last_name,
+            })
+
+            return HttpResponse('New User Registered Successfully!')
+        except requests.HTTPError as e:
+            error_json = e.args[1]
+            error = json.loads(error_json)['error']['message']
+            if error == "EMAIL_EXISTS":
+                return HttpResponse('Email Already Exists!')
+
+    else:
+        return HttpResponse('Password Do not Match!')
+
+def delete_Admin(request):
+    if request.method == 'GET':
+        user_id = request.GET.get('user_id')
+
+        auth.delete_user(user_id)
+
+        firestoreDB.collection('admin_users').document(user_id).delete()
+
+        return redirect('manage_admins') 
+
+def edit_Admin(request):
+    if request.method == 'POST':
+        user_id = request.POST.get('user_id')
+        first_name = request.POST.get('first_name_edit')
+        last_name = request.POST.get('last_name_edit')
+
+        doc_ref = firestoreDB.collection('admin_users').document(user_id)
+
+        doc_ref.update({
+            'first_name': first_name,
+            'last_name': last_name,
+            })
+
+        return redirect('manage_admins')
+
+def add_product(request):
+    if request.method == 'POST':
+        product_name = request.POST.get('product_name')
+        product_part = request.POST.get('product_part')
+        product_price = request.POST.get('product_price')
+        stocks = request.POST.get('stocks')
+
+        doc_ref = firestoreDB.collection('products').document()
+        doc_ref.set({
+            'product_id': doc_ref.id,
+            'product_name': product_name,
+            'product_part': product_part,
+            'product_price': product_price,
+            'stocks': stocks,
+            })
+
+        return redirect('manage_products')

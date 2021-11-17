@@ -1,0 +1,45 @@
+{% if 'user_id' in request.session %}
+{% include "homebase_admin.html" %}
+
+{% elif 'super_admin' in request.session %}
+{% include 'homebase_superadmin.html'%}
+{% endif %}
+
+{% block content %}
+<br>
+<br>
+<br>
+<div class="p-10">
+<h1>Track Orders</h1>
+<h5>Track Customer's Order here</h5>
+<br>
+<table class="table table-border cell-border striped" data-role="table">
+    <thead>
+    <tr style="background-color: #6495ed;">
+        <th>#</th>
+        <th>Customer Name</th>
+        <th>Customer Order/s</th>
+        <th>Total price</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>1</td>
+        <td >Bill</td>
+        <td>Gates</td>
+        <td>@billy</td>
+        <td><text style="color:tomato">Ongoing</text></td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Steve</td>
+        <td>Jobs</td>
+        <td>Page</td>
+        <td><text style="color:green">Done</text></td>
+    </tr>
+    </tbody>
+</table>
+    
+</div>
+{% endblock %}

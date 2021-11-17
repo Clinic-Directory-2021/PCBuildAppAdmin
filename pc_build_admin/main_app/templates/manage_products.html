@@ -1,0 +1,106 @@
+{% if 'user_id' in request.session %}
+{% include "homebase_admin.html" %}
+
+{% elif 'super_admin' in request.session %}
+{% include 'homebase_superadmin.html'%}
+{% endif %}
+{% block content %}
+<br>
+<br>
+<br>
+<div class="p-10">
+<h1>Manage Products</h1>
+<h5>Create, Update or Delete your Products here</h5>
+<br>
+<button class="button primary" onclick="Metro.dialog.open('#create_product')">Add products</button>
+<br>
+<br>
+<table class="table table-border cell-border striped" data-role="table">
+    <thead>
+    <tr style="background-color: #6495ed;">
+        <th>#</th>
+        <th>Product name</th>
+        <th>Product part</th>
+        <th>Price</th>
+        <th>Stocks</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for product in product_data %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td >{{product.product_name}}</td>
+        <td>{{product.product_part}}</td>
+        <td>{{product.product_price}}</td>
+        <td>{{product.stocks}}</td>
+        <td>
+            <button class="button success" onclick="Metro.dialog.open('#edit_product')">Edit</button>
+            <button class="button alert">Delete</button>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+    
+</div>
+
+<!--Create product-->
+<div class="dialog w-50" data-role="dialog" id="create_product">
+    <form action="/add_product/" method="POST">
+        {% csrf_token %}
+    <div class="dialog-title">Create product</div>
+    <div class="dialog-content">
+            <div class="form-group">
+                <label>Product name</label>
+                <input type="text" placeholder="Enter products name" id="product_name" name="product_name"/>
+            </div>
+            <div class="form-group">
+                <label>Product part</label>
+                <input type="text" placeholder="Enter product part" id="product_part" name='product_part'/>
+            </div>
+            <div class="form-group">
+                <label>Price</label>
+                <input type="text" placeholder="Enter product price" id="product_price" name="product_price"/>
+            </div>
+            <div class="form-group">
+                <label>Stocks</label>
+                <input type="number" placeholder="Enter how many stocks you have" id="stocs" name='stocks'/>
+            </div>
+    </div>
+    <div class="dialog-actions">
+        <button class="button js-dialog-close">Cancel</button>
+        <button type="submit" class="button primary js-dialog-close">Create product</button>
+    </div>
+</form>
+</div>
+
+<!--Edit product-->
+<div class="dialog w-50" data-role="dialog" id="edit_product">
+    <form>
+    <div class="dialog-title">Edit product</div>
+    <div class="dialog-content">
+            <div class="form-group">
+                <label>Product name</label>
+                <input type="text" placeholder="Enter products name" id="product_name" name="product_name"/>
+            </div>
+            <div class="form-group">
+                <label>Product part</label>
+                <input type="text" placeholder="Enter product part" id="product_part" name='product_part'/>
+            </div>
+            <div class="form-group">
+                <label>Price</label>
+                <input type="text" placeholder="Enter product price" id="product_price" name="product_part"/>
+            </div>
+            <div class="form-group">
+                <label>Stocks</label>
+                <input type="number" placeholder="Enter how many stocks you have" id="stocs" name='stocks'/>
+            </div>
+    </div>
+    <div class="dialog-actions">
+        <button class="button js-dialog-close">Cancel</button>
+        <button class="button primary js-dialog-close">Edit product</button>
+    </div>
+</form>
+</div>
+{% endblock %}

@@ -21,4 +21,13 @@ urlpatterns = [
     path('', views.login, name="login"),
     path('register/', views.register, name="register"),
     path('login_validation/', views.login_validation, name="login_validation"),
+    path('manage_admins/', views.manage_admins, name="manage_admins"),
+    path('manage_products/', views.manage_products, name="manage_products"),
+    path('orders/', views.orders, name="orders"),
+    path('logout/', views.logout, name="logout"),
+    path('register_admin_firebase/', views.register_admin_firebase, name="register_admin_firebase"),
+    path('delete_Admin/', views.delete_Admin, name="delete_Admin"),
+    path('edit_Admin/', views.edit_Admin, name="edit_Admin"),
+    path('add_product/', views.add_product, name="add_product"),
+    
 ]
