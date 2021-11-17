@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="display: flex;">
+<div class="w-50 p-10">
+<form method="post" id="loginForm">
+    {% csrf_token %}
+    <div class="form-group">
+        <label>Email address</label>
+        <input type="email" placeholder="Enter email" id="email" name="email"/>
+    </div>
+    <div class="form-group">
+        <label>Password</label>
+        <input type="password" placeholder="Enter password" id="password" name="password"/>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="button icon primary" id="loginBtn">Login</button>
+        Not an admin? create account<a href="{% url 'register' %}"> here</a>.
+    </div>
+</form>
+</div>
+
+<div class="w-50" style="background-color: black; color: white; text-align: center;">
+    <h1>Login</h1>
+    <h5>Sign in your own account here</h5>
+    <div data-role="cube"
+        data-color="bg-cyan bd-darkCyan"
+        data-flash-color="#aa00ff"></div>
+
+    <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
+</div>
+</div>
+{% endblock content %}
