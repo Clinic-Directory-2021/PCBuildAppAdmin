@@ -24,20 +24,15 @@
     </tr>
     </thead>
     <tbody>
+    {% for order in order_data %}    
     <tr>
-        <td>1</td>
-        <td >Bill</td>
-        <td>Gates</td>
-        <td>@billy</td>
-        <td><text style="color:tomato">Ongoing</text></td>
+        <td>{{forloop.counter}}</td>
+        <td >{{order.customer_name}}</td>
+        <td >{{order.customer_order}}</td>
+        <td >{{order.total_price}}</td>
+        <td><text style="color:tomato">{{order.order_status}}</text></td>
     </tr>
-    <tr>
-        <td>2</td>
-        <td>Steve</td>
-        <td>Jobs</td>
-        <td>Page</td>
-        <td><text style="color:green">Done</text></td>
-    </tr>
+    {% endfor %}
     </tbody>
 </table>
     
