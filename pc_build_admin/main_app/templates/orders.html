@@ -42,9 +42,10 @@
 </div>
 
 <!-- edit dialog -->
-<form action="/edit_order/" id="editOrderForm" method="post">
-    {% csrf_token %}
+
 <div class="dialog" data-role="dialog" id="edit_dialog">
+    <form action="/edit_order/" method="POST" enctype="multipart/form-data" id="editOrderForm">
+        {% csrf_token %}
     <div class="dialog-title">Edit Customer's Order Status</div>
     <div class="dialog-content">
         <input type="text" name="customer_name" id="customer_name" readonly placeholder="Customer Name">
@@ -65,10 +66,11 @@
     </div>
     <div class="dialog-actions">
         <button type="button" class="button js-dialog-close">Cancel</button>
-        <button type="submit" >Save</button>
+        <button type="submit" class="button primary js-dialog-close">Save</button>
     </div>
-</div>
 </form>
+</div>
+
 <!-- delete dialog -->
 <div class="dialog" data-role="dialog" id="delete_dialog">
     <div class="dialog-title">Delete Order Dialog</div>
