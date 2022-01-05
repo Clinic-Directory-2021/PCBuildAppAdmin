@@ -227,7 +227,7 @@ def edit_Admin(request):
 
 def edit_product(request):
       if request.method == 'POST':
-        product_img =  request.FILES['edit_product_image']
+        product_img =  request.FILES['edit_product_img']
         fileName = product_img.name
 
         old_img_directory = request.POST.get('old_img_directory')
