@@ -84,7 +84,7 @@
 
 <!--Edit product-->
 <div class="dialog w-50" data-role="dialog" id="edit_product">
-    <form action="/edit_product/" method="POST">
+    <form action="/edit_product/" method="POST" enctype="multipart/form">
         {% csrf_token %}
     <div class="dialog-title">Edit product</div>
     <div class="dialog-content">
