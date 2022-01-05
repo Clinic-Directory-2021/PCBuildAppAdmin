@@ -221,7 +221,10 @@ def add_product(request):
         product_price = request.POST.get('product_price')
         stocks = request.POST.get('stocks')
 
-        del request.session['product_already_exist']
+        try:
+            del request.session['product_already_exist']
+        except:
+            print('session not yet declared')
 
         same_product_name = firestoreDB.collection('products').where('product_name' , '==', product_name).stream()
 
