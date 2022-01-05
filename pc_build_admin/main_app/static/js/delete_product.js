@@ -1,5 +1,5 @@
 
-function deleteProduct(product_id){
+function deleteProduct(product_id, img_directory){
 
     Swal.fire({
         icon: 'question',
@@ -14,7 +14,7 @@ function deleteProduct(product_id){
             var url = "/delete_Product";
 
             // Construct the full URL with "id"
-            document.location.href = url + "?product_id=" + product_id;
+            document.location.href = url + "?product_id=" + product_id+ "&img_directory=" + img_directory;
         }
       })
 

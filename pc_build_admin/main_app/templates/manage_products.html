@@ -38,7 +38,7 @@
         <td>{{product.stocks}}</td>
         <td>
             <button class="button success" onclick="Metro.dialog.open('#edit_product'), editProduct('{{product.product_id}}', '{{product.product_name}}', '{{product.product_part}}','{{product.product_price}}','{{product.stocks}}', '{{product.product_img_directory}}')">Edit</button>
-            <button class="button alert" onclick="deleteProduct('{{product.product_id}}')">Delete</button>
+            <button class="button alert" onclick="deleteProduct('{{product.product_id}}' , '{{product.product_img_directory}}')">Delete</button>
         </td>
     </tr>
     {% endfor %}
@@ -89,7 +89,7 @@
     <div class="dialog-title">Edit product</div>
     <div class="dialog-content">
             <div class="card-content p-2">
-                <img src="http://lorempixel.com/1000/600/" style="width: 100%" id="edit_product_preview_img">
+                <img src="http://lorempixel.com/1000/600/" style="width: 25%" id="edit_product_preview_img">
             </div>
             <input type="file" data-role="file" data-prepend="Change Photo" id="edit_product_img" name="edit_product_img" required>
             <br>

@@ -202,8 +202,12 @@ def delete_Admin(request):
 def delete_Product(request):
     if request.method == 'GET':
         product_id = request.GET.get('product_id')
+        img_directory = request.GET.get('img_directory')
 
         firestoreDB.collection('products').document(product_id).delete()
+
+        storage.delete(img_directory, product_id)
+
         return redirect('manage_products')
 
 def edit_Admin(request):
@@ -289,7 +293,7 @@ def add_product(request):
                 'product_part': product_part,
                 'product_price': product_price,
                 'stocks': stocks,
-                'product_img_url':  storage.child(img_file_directory).get_url(None),
+                'product_img_url': storage.child(img_file_directory).get_url(None),
                 'product_img_directory': img_file_directory,
                 })
 
