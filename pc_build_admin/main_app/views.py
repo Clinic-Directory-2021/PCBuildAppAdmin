@@ -223,7 +223,13 @@ def add_product(request):
 
         same_product_name = firestoreDB.collection('products').where('product_name' , '==', product_name).stream()
 
-        if(same_product_name == None):
+        same_product_list = []
+
+        for same_product in same_product_name:
+            value = same_product.to_dict()
+            same_product_list.append(value)
+
+        if(same_product_list == None):
             doc_ref = firestoreDB.collection('products').document()
             doc_ref.set({
                 'product_id': doc_ref.id,
