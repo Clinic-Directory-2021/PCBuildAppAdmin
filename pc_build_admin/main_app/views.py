@@ -246,7 +246,7 @@ def edit_product(request):
         storage.delete(old_img_directory, product_id_edit)
 
         #upload product image
-        storage.child(img_file_directory).put(product_img)
+        storage.child(img_file_directory).put(product_img, None)
 
         doc_ref.update({
             'product_id': product_id_edit,
@@ -285,7 +285,7 @@ def add_product(request):
             img_file_directory = doc_ref.id+"/product_image/"+ fileName
 
             #upload product image
-            storage.child(img_file_directory).put(product_img)
+            storage.child(img_file_directory).put(product_img, None)
 
             doc_ref.set({
                 'product_id': doc_ref.id,
