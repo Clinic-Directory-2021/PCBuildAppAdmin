@@ -243,7 +243,7 @@ def edit_product(request):
         img_file_directory = doc_ref.id+"/product_image/"+ fileName
 
         #delete the old picture
-        storage.delete(old_img_directory)
+        storage.delete(old_img_directory, None)
 
         #upload product image
         storage.child(img_file_directory).put(product_img)
