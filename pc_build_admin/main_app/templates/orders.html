@@ -21,6 +21,7 @@
         <th>Customer Order/s</th>
         <th>Total price</th>
         <th>Status</th>
+        <th>Tools</th>
     </tr>
     </thead>
     <tbody>
@@ -31,10 +32,35 @@
         <td >{{order.customer_order}}</td>
         <td >{{order.total_price}}</td>
         <td><text style="color:tomato">{{order.order_status}}</text></td>
+        <td><button class="button primary" onclick="Metro.dialog.open('#edit_dialog')">Edit</button> 
+            <button class="button alert" onclick="Metro.dialog.open('#delete_dialog')">Delete</button></td>
     </tr>
     {% endfor %}
     </tbody>
 </table>
     
+</div>
+
+<div class="dialog" data-role="dialog" id="edit_dialog">
+    <div class="dialog-title">Use Windows location service?</div>
+    <div class="dialog-content">
+        Bassus abactors ducunt ad triticum.
+        A fraternal form of manifestation is the bliss.
+    </div>
+    <div class="dialog-actions">
+        <button class="button js-dialog-close">Cancel</button>
+        <button class="button primary js-dialog-close">Save</button>
+    </div>
+</div>
+
+<div class="dialog" data-role="dialog" id="delete_dialog">
+    <div class="dialog-title">Use Windows location service?</div>
+    <div class="dialog-content">
+        Are you sure you want to delete this item?
+    </div>
+    <div class="dialog-actions">
+        <button class="button js-dialog-close">Cancel</button>
+        <button class="button primary js-dialog-close">Confirm</button>
+    </div>
 </div>
 {% endblock %}

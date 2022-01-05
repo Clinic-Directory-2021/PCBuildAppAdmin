@@ -5,6 +5,21 @@
 {% include 'homebase_superadmin.html'%}
 {% endif %}
 {% block content %}
+
+
+{% if 'product_already_exist' in request.session %}
+<script type="text/javascript" defer>
+    $( document ).ready(function() {
+         console.log("Already Exist");
+           Swal.fire({
+             icon: 'error',
+             title: 'Product Already Exist!',
+             confirmButtonText: 'OKAY',
+           })
+
+       });
+ </script>
+{% endif %}
 <br>
 <br>
 <br>

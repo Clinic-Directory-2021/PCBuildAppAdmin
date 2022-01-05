@@ -221,15 +221,21 @@ def add_product(request):
         product_price = request.POST.get('product_price')
         stocks = request.POST.get('stocks')
 
-        doc_ref = firestoreDB.collection('products').document()
-        doc_ref.set({
-            'product_id': doc_ref.id,
-            'product_name': product_name,
-            'product_part': product_part,
-            'product_price': product_price,
-            'stocks': stocks,
-            })
+        del request.session['product_already_exist']
 
+        same_product_name = firestoreDB.collection('products').where('product_name' , '==', product_name).stream()
+
+        if(same_product_name == None):
+            doc_ref = firestoreDB.collection('products').document()
+            doc_ref.set({
+                'product_id': doc_ref.id,
+                'product_name': product_name,
+                'product_part': product_part,
+                'product_price': product_price,
+                'stocks': stocks,
+                })
+        else:
+            request.session['product_already_exist'] = "product exist"
         return redirect('manage_products')
 
 def forgot_password(request):
