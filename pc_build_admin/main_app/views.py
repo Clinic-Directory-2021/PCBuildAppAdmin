@@ -81,6 +81,33 @@ def orders(request):
     else:
         return redirect('/')
 
+def edit_order(request):
+    if request.method == 'POST':
+        customer_name = request.POST.get('customer_name')
+        customer_order = request.POST.get('customer_order')
+        total_price = request.POST.get('total_price')
+        selectOrderStatus = request.POST.get('selectOrderStatus')
+
+        order_id = request.POST.get('order_id')
+
+        doc_ref = firestoreDB.collection('orders').document(order_id)
+
+        doc_ref.update({
+            'customer_name': customer_name,
+            'customer_order': customer_order,
+            'total_price': total_price,
+            'order_status': selectOrderStatus,
+            })
+
+        return redirect('orders')
+
+def delete_order(request):
+    if request.method == 'GET':
+        order_id = request.GET.get('order_id')
+
+        firestoreDB.collection('orders').document(order_id).delete()
+        return redirect('orders')
+
 def logout(request):
     try:
         if 'user_id' in request.session:
@@ -196,6 +223,11 @@ def edit_Admin(request):
 
 def edit_product(request):
       if request.method == 'POST':
+        product_img =  request.FILES['edit_product_image']
+        fileName = product_img.name
+
+        old_img_directory = request.POST.get('old_img_directory')
+
         product_id_edit = request.POST.get('product_id_edit')
         product_name_edit = request.POST.get('product_name_edit')
         product_part_edit = request.POST.get('product_part_edit')
@@ -204,18 +236,31 @@ def edit_product(request):
 
         doc_ref = firestoreDB.collection('products').document(product_id_edit)
 
+        img_file_directory = doc_ref.id+"/product_image/"+ fileName
+
+        #delete the old picture
+        storage.delete(old_img_directory, product_id_edit)
+
+        #upload product image
+        storage.child(img_file_directory).put(product_img)
+
         doc_ref.update({
             'product_id': product_id_edit,
             'product_name': product_name_edit,
             'product_part': product_part_edit,
             'product_price': product_price_edit,
             'stocks': stocks_edit,
+            'product_img_url':  storage.child(img_file_directory).get_url(None),
+            'product_img_directory': img_file_directory,
             })
 
         return redirect('manage_products')
 
 def add_product(request):
     if request.method == 'POST':
+        product_img =  request.FILES['product_image']
+        fileName = request.POST.get('fileName')
+
         product_name = request.POST.get('product_name')
         product_part = request.POST.get('product_part')
         product_price = request.POST.get('product_price')
@@ -232,13 +277,22 @@ def add_product(request):
 
         if not same_product_list:
             doc_ref = firestoreDB.collection('products').document()
+
+            img_file_directory = doc_ref.id+"/product_image/"+ fileName
+
+            #upload product image
+            storage.child(img_file_directory).put(product_img)
+
             doc_ref.set({
                 'product_id': doc_ref.id,
                 'product_name': product_name,
                 'product_part': product_part,
                 'product_price': product_price,
                 'stocks': stocks,
+                'product_img_url':  storage.child(img_file_directory).get_url(None),
+                'product_img_directory': img_file_directory,
                 })
+
             return HttpResponse('Success!')
         else:
            return HttpResponse('Product Already Exists!')

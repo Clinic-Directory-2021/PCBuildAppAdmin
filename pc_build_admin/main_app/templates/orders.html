@@ -32,8 +32,8 @@
         <td >{{order.customer_order}}</td>
         <td >{{order.total_price}}</td>
         <td><text style="color:tomato">{{order.order_status}}</text></td>
-        <td><button class="button primary" onclick="Metro.dialog.open('#edit_dialog')">Edit</button> 
-            <button class="button alert" onclick="Metro.dialog.open('#delete_dialog')">Delete</button></td>
+        <td><button class="button primary" onclick="Metro.dialog.open('#edit_dialog'), editOrder('{{order.order_id}}', '{{order.customer_name}}', '{{order.customer_order}}', '{{order.total_price}}')">Edit</button> 
+            <button class="button alert" onclick="deleteOrder('{{order.order_id}}')">Delete</button></td>
     </tr>
     {% endfor %}
     </tbody>
@@ -41,27 +41,35 @@
     
 </div>
 
+<!-- edit dialog -->
+<form action="/edit_order/" id="editOrderForm">
+    {% csrf_token %}
 <div class="dialog" data-role="dialog" id="edit_dialog">
     <div class="dialog-title">Edit Customer's Order Status</div>
     <div class="dialog-content">
-        <p>Custumer name</p>
-        <p>Custumer order</p>
-        <p>total price</p>
+        <input type="text" name="customer_name" id="customer_name" readonly placeholder="Customer Name">
+        <input type="text" name="customer_order" id="customer_order" readonly placeholder="Customer order">
+        <input type="text" name="total_price" id="total_price" readonly placeholder="Total Price">
         <br>
         <p>Status</p>
-        <select data-role="select">
+        
+        <select data-role="select" name="selectOrderStatus" id="selectOrderStatus" form="editOrderForm">
                 <option value="ongoing">Ongoing</option>
                 <option value="cancelled">Cancelled</option>
                 <option value="completed">Completed</option>
                 <option value="accepted">Accepted</option>
         </select>
+
+        <input type="hidden" name="order_id" id="order_id" >
+       
     </div>
     <div class="dialog-actions">
-        <button class="button js-dialog-close">Cancel</button>
-        <button class="button primary js-dialog-close">Save</button>
+        <button type="button" class="button js-dialog-close">Cancel</button>
+        <button type="submit" class="button primary js-dialog-close">Save</button>
     </div>
 </div>
-
+</form>
+<!-- delete dialog -->
 <div class="dialog" data-role="dialog" id="delete_dialog">
     <div class="dialog-title">Delete Order Dialog</div>
     <div class="dialog-content">
@@ -72,4 +80,5 @@
         <button class="button primary js-dialog-close">Confirm</button>
     </div>
 </div>
+
 {% endblock %}
