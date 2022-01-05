@@ -42,7 +42,7 @@
 </div>
 
 <!-- edit dialog -->
-<form action="/edit_order/" id="editOrderForm">
+<form action="/edit_order/" id="editOrderForm" method="post">
     {% csrf_token %}
 <div class="dialog" data-role="dialog" id="edit_dialog">
     <div class="dialog-title">Edit Customer's Order Status</div>
