@@ -235,6 +235,7 @@ def edit_product(request):
         product_id_edit = request.POST.get('product_id_edit')
         product_name_edit = request.POST.get('product_name_edit')
         product_part_edit = request.POST.get('product_part_edit')
+        edit_manufacturer = request.POST.get('edit_manufacturer')
         product_price_edit = request.POST.get('product_price_edit')
         stocks_edit = request.POST.get('stocks_edit')
 
@@ -252,6 +253,7 @@ def edit_product(request):
             'product_id': product_id_edit,
             'product_name': product_name_edit,
             'product_part': product_part_edit,
+            'manufacturer':edit_manufacturer,
             'product_price': product_price_edit,
             'stocks': stocks_edit,
             'product_img_url':  storage.child(img_file_directory).get_url(None),
@@ -271,7 +273,6 @@ def add_product(request):
         product_price = request.POST.get('product_price')
         stocks = request.POST.get('stocks')
 
-<<<<<<< Updated upstream
         same_product_name = firestoreDB.collection('products').where('product_name' , '==', product_name).stream()
 
         same_product_list = []
@@ -293,11 +294,13 @@ def add_product(request):
                 'product_id': doc_ref.id,
                 'product_name': product_name,
                 'product_part': product_part,
+                'manufacturer': manufacturer,
                 'product_price': product_price,
                 'stocks': stocks,
                 'product_img_url': storage.child(img_file_directory).get_url(None),
                 'product_img_directory': img_file_directory,
                 })
+                
 
             return HttpResponse('Success!')
         else:
@@ -320,16 +323,14 @@ def forgot_password(request):
         data = {
                 'success': "Email Not Found!",
             }
-=======
-        doc_ref = firestoreDB.collection('products').document()
-        doc_ref.set({
-            'product_id': doc_ref.id,
-            'product_name': product_name,
-            'product_part': product_part,
-            'manufacturer': manufacturer,
-            'product_price': product_price,
-            'stocks': stocks,
-            })
->>>>>>> Stashed changes
-
     return render(request,'forgot_password.html', data)
+
+# doc_ref = firestoreDB.collection('products').document()
+#         doc_ref.set({
+#             'product_id': doc_ref.id,
+#             'product_name': product_name,
+#             'product_part': product_part,
+#             'manufacturer': manufacturer,
+#             'product_price': product_price,
+#             'stocks': stocks,
+#             })

@@ -8,6 +8,7 @@ $('#add_product_form').on('submit', function(e){
 
     formData.append('product_name', $('#product_name').val());
     formData.append('product_part', $('#product_part').val());
+    formData.append('manufacturer', $('#manufacturer').val());
     formData.append('product_price', $('#product_price').val());
     formData.append('stocks', $('#stocs').val());
 

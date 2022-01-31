@@ -39,7 +39,7 @@
         <td>{{product.product_price}}</td>
         <td>{{product.stocks}}</td>
         <td>
-            <button class="button success" onclick="Metro.dialog.open('#edit_product'), editProduct('{{product.product_id}}', '{{product.product_name}}', '{{product.product_part}}','{{product.product_price}}','{{product.stocks}}', '{{product.product_img_directory}}')">Edit</button>
+            <button class="button success" onclick="Metro.dialog.open('#edit_product'), editProduct('{{product.product_id}}', '{{product.product_name}}', '{{product.product_part}}', '{{product.manufacturer}}', '{{product.product_price}}','{{product.stocks}}', '{{product.product_img_directory}}')">Edit</button>
             <button class="button alert" onclick="deleteProduct('{{product.product_id}}' , '{{product.product_img_directory}}')">Delete</button>
         </td>
     </tr>
@@ -56,7 +56,7 @@
     <div class="dialog-title">Create product</div>
     <div class="dialog-content">
             <div class="card-content p-2">
-                <img src="http://lorempixel.com/1000/600/" style="width: 25%" id="product_preview_img">
+                <img src="http://lorempixel.com/1000/600/" style="width: 200px; height: 200px;" id="product_preview_img">
             </div>
             <input type="file" data-role="file" data-prepend="Add Photo" id="product_img" name="product_img" required>
             <br>
@@ -70,7 +70,7 @@
             </div>
             <div class="form-group">
                 <label>Manufacturer</label>
-                <input type="text" placeholder="Enter manufacturer" id="manufacturer" name='manufacturer'/>
+                <input type="text" placeholder="Enter manufacturer" id="manufacturer" name='manufacturer' required/>
             </div>
             <div class="form-group">
                 <label>Price</label>
@@ -94,8 +94,8 @@
         {% csrf_token %}
     <div class="dialog-title">Edit product</div>
     <div class="dialog-content">
-            <div class="card-content p-2">
-                <img src="http://lorempixel.com/1000/600/" style="width: 25%" id="edit_product_preview_img">
+            <div class="card-content p-2" style="text-align: center">
+                <img src="http://lorempixel.com/1000/600/" style="width: 200px; height: 200px;" id="edit_product_preview_img">
             </div>
             <input type="file" data-role="file" data-prepend="Change Photo" id="edit_product_img" name="edit_product_img" required>
             <br>
@@ -108,6 +108,10 @@
                 <input type="text" placeholder="Enter product part" id="product_part_edit" name='product_part_edit' required/>
             </div>
             <div class="form-group">
+                <label>Manufacturer</label>
+                <input type="text" placeholder="Enter manufacturer" id="edit_manufacturer" name='edit_manufacturer' required/>
+            </div>
+            <div class="form-group">
                 <label>Price</label>
                 <input type="text" placeholder="Enter product price" id="product_price_edit" name="product_price_edit" required/>
             </div>
@@ -117,6 +121,7 @@
             </div>
             <input type="hidden" id="product_id_edit" name="product_id_edit"/>
             <input type="hidden" name="old_img_directory" id="old_img_directory" >
+            <label for="" id="hello"></label>
     </div>
     <div class="dialog-actions">
         <button class="button js-dialog-close">Cancel</button>
