@@ -267,9 +267,11 @@ def add_product(request):
 
         product_name = request.POST.get('product_name')
         product_part = request.POST.get('product_part')
+        manufacturer = request.POST.get('manufacturer')
         product_price = request.POST.get('product_price')
         stocks = request.POST.get('stocks')
 
+<<<<<<< Updated upstream
         same_product_name = firestoreDB.collection('products').where('product_name' , '==', product_name).stream()
 
         same_product_list = []
@@ -318,5 +320,16 @@ def forgot_password(request):
         data = {
                 'success': "Email Not Found!",
             }
+=======
+        doc_ref = firestoreDB.collection('products').document()
+        doc_ref.set({
+            'product_id': doc_ref.id,
+            'product_name': product_name,
+            'product_part': product_part,
+            'manufacturer': manufacturer,
+            'product_price': product_price,
+            'stocks': stocks,
+            })
+>>>>>>> Stashed changes
 
     return render(request,'forgot_password.html', data)

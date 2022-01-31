@@ -15,13 +15,14 @@
 <button class="button primary" onclick="Metro.dialog.open('#create_product')">Add products</button>
 <br>
 <br>
-<table class="table table-border cell-border striped" data-role="table">
+<table class="table table-border cell-border striped" data-role="table" data-horizontal-scroll="true">
     <thead>
     <tr style="background-color: #6495ed;">
         <th>#</th>
         <th>Image</th>
         <th>Product name</th>
         <th>Product part</th>
+        <th>Manufacturer</th>
         <th>Price</th>
         <th>Stocks</th>
         <th>Actions</th>
@@ -34,6 +35,7 @@
         <td><img src="{{product.product_img_url}}" alt="../" width="100" height="100"></td>
         <td >{{product.product_name}}</td>
         <td>{{product.product_part}}</td>
+        <td>{{product.manufacturer}}</td>
         <td>{{product.product_price}}</td>
         <td>{{product.stocks}}</td>
         <td>
@@ -65,6 +67,10 @@
             <div class="form-group">
                 <label>Product part</label>
                 <input type="text" placeholder="Enter product part" id="product_part" name='product_part' required/>
+            </div>
+            <div class="form-group">
+                <label>Manufacturer</label>
+                <input type="text" placeholder="Enter manufacturer" id="manufacturer" name='manufacturer'/>
             </div>
             <div class="form-group">
                 <label>Price</label>
