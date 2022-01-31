@@ -21,25 +21,66 @@
         <th>Customer Order/s</th>
         <th>Total price</th>
         <th>Status</th>
+        <th>Tools</th>
     </tr>
     </thead>
     <tbody>
+    {% for order in order_data %}    
     <tr>
-        <td>1</td>
-        <td >Bill</td>
-        <td>Gates</td>
-        <td>@billy</td>
-        <td><text style="color:tomato">Ongoing</text></td>
+        <td>{{forloop.counter}}</td>
+        <td >{{order.customer_name}}</td>
+        <td >{{order.customer_order}}</td>
+        <td >{{order.total_price}}</td>
+        <td><text style="color:tomato">{{order.order_status}}</text></td>
+        <td><button class="button primary" onclick="Metro.dialog.open('#edit_dialog'), editOrder('{{order.order_id}}', '{{order.customer_name}}', '{{order.customer_order}}', '{{order.total_price}}')">Edit</button> 
+            <button class="button alert" onclick="deleteOrder('{{order.order_id}}')">Delete</button></td>
     </tr>
-    <tr>
-        <td>2</td>
-        <td>Steve</td>
-        <td>Jobs</td>
-        <td>Page</td>
-        <td><text style="color:green">Done</text></td>
-    </tr>
+    {% endfor %}
     </tbody>
 </table>
     
 </div>
+
+<!-- edit dialog -->
+
+<div class="dialog" data-role="dialog" id="edit_dialog">
+    <form action="/edit_order/" method="POST" enctype="multipart/form-data" id="editOrderForm">
+        {% csrf_token %}
+    <div class="dialog-title">Edit Customer's Order Status</div>
+    <div class="dialog-content">
+        <input type="text" name="customer_name" id="customer_name" readonly placeholder="Customer Name">
+        <input type="text" name="customer_order" id="customer_order" readonly placeholder="Customer order">
+        <input type="text" name="total_price" id="total_price" readonly placeholder="Total Price">
+        <br>
+        <p>Status</p>
+        
+        <select data-role="select" name="selectOrderStatus" id="selectOrderStatus" form="editOrderForm">
+                <option value="ongoing">Ongoing</option>
+                <option value="cancelled">Cancelled</option>
+                <option value="completed">Completed</option>
+                <option value="accepted">Accepted</option>
+        </select>
+
+        <input type="hidden" name="order_id" id="order_id" >
+       
+    </div>
+    <div class="dialog-actions">
+        <button type="button" class="button js-dialog-close">Cancel</button>
+        <button type="submit" class="button primary js-dialog-close">Save</button>
+    </div>
+</form>
+</div>
+
+<!-- delete dialog -->
+<div class="dialog" data-role="dialog" id="delete_dialog">
+    <div class="dialog-title">Delete Order Dialog</div>
+    <div class="dialog-content">
+        Are you sure you want to delete this order?
+    </div>
+    <div class="dialog-actions">
+        <button class="button js-dialog-close">Cancel</button>
+        <button class="button primary js-dialog-close">Confirm</button>
+    </div>
+</div>
+
 {% endblock %}

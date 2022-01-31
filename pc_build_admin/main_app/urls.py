@@ -29,5 +29,11 @@ urlpatterns = [
     path('delete_Admin/', views.delete_Admin, name="delete_Admin"),
     path('edit_Admin/', views.edit_Admin, name="edit_Admin"),
     path('add_product/', views.add_product, name="add_product"),
+    path('edit_product/', views.edit_product, name="edit_product"),
+    path('delete_Product/', views.delete_Product, name="delete_Product"),
+    path('forgot_password/', views.forgot_password, name='forgot_password'),
+     
+    path('edit_order/', views.edit_order, name='edit_order'),
+    path('delete_order/', views.delete_order, name='delete_order'),
     
 ]

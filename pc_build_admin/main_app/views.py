@@ -64,7 +64,49 @@ def homepage(request):
     return render(request, 'homepage.html')
 
 def orders(request):
-    return render(request, 'orders.html')
+    if 'user_id' in request.session or 'super_admin' in request.session:
+
+        orders = firestoreDB.collection('orders').get()
+
+        order_data = []
+
+        for order in orders:
+            value = order.to_dict()
+            order_data.append(value)
+
+        data = {
+            'order_data': order_data,
+        }
+        return render(request, 'orders.html', data)
+    else:
+        return redirect('/')
+
+def edit_order(request):
+    if request.method == 'POST':
+        customer_name = request.POST.get('customer_name')
+        customer_order = request.POST.get('customer_order')
+        total_price = request.POST.get('total_price')
+        selectOrderStatus = request.POST.get('selectOrderStatus')
+
+        order_id = request.POST.get('order_id')
+
+        doc_ref = firestoreDB.collection('orders').document(order_id)
+
+        doc_ref.update({
+            'customer_name': customer_name,
+            'customer_order': customer_order,
+            'total_price': total_price,
+            'order_status': selectOrderStatus,
+            })
+
+        return redirect('orders')
+
+def delete_order(request):
+    if request.method == 'GET':
+        order_id = request.GET.get('order_id')
+
+        firestoreDB.collection('orders').document(order_id).delete()
+        return redirect('orders')
 
 def logout(request):
     try:
@@ -157,6 +199,17 @@ def delete_Admin(request):
 
         return redirect('manage_admins') 
 
+def delete_Product(request):
+    if request.method == 'GET':
+        product_id = request.GET.get('product_id')
+        img_directory = request.GET.get('img_directory')
+
+        firestoreDB.collection('products').document(product_id).delete()
+
+        storage.delete(img_directory, product_id)
+
+        return redirect('manage_products')
+
 def edit_Admin(request):
     if request.method == 'POST':
         user_id = request.POST.get('user_id')
@@ -172,20 +225,98 @@ def edit_Admin(request):
 
         return redirect('manage_admins')
 
+def edit_product(request):
+      if request.method == 'POST':
+        product_img =  request.FILES['edit_product_img']
+        fileName = product_img.name
+
+        old_img_directory = request.POST.get('old_img_directory')
+
+        product_id_edit = request.POST.get('product_id_edit')
+        product_name_edit = request.POST.get('product_name_edit')
+        product_part_edit = request.POST.get('product_part_edit')
+        product_price_edit = request.POST.get('product_price_edit')
+        stocks_edit = request.POST.get('stocks_edit')
+
+        doc_ref = firestoreDB.collection('products').document(product_id_edit)
+
+        img_file_directory = doc_ref.id+"/product_image/"+ fileName
+
+        #delete the old picture
+        storage.delete(old_img_directory, None)
+
+        #upload product image
+        storage.child(img_file_directory).put(product_img)
+
+        doc_ref.update({
+            'product_id': product_id_edit,
+            'product_name': product_name_edit,
+            'product_part': product_part_edit,
+            'product_price': product_price_edit,
+            'stocks': stocks_edit,
+            'product_img_url':  storage.child(img_file_directory).get_url(None),
+            'product_img_directory': img_file_directory,
+            })
+
+        return redirect('manage_products')
+
 def add_product(request):
     if request.method == 'POST':
+        product_img =  request.FILES['product_image']
+        fileName = request.POST.get('fileName')
+
         product_name = request.POST.get('product_name')
         product_part = request.POST.get('product_part')
         product_price = request.POST.get('product_price')
         stocks = request.POST.get('stocks')
 
-        doc_ref = firestoreDB.collection('products').document()
-        doc_ref.set({
-            'product_id': doc_ref.id,
-            'product_name': product_name,
-            'product_part': product_part,
-            'product_price': product_price,
-            'stocks': stocks,
-            })
+        same_product_name = firestoreDB.collection('products').where('product_name' , '==', product_name).stream()
 
-        return redirect('manage_products')
+        same_product_list = []
+
+        for same_product in same_product_name:
+            value = same_product.to_dict()
+            same_product_list.append(value)
+
+
+        if not same_product_list:
+            doc_ref = firestoreDB.collection('products').document()
+
+            img_file_directory = doc_ref.id+"/product_image/"+ fileName
+
+            #upload product image
+            storage.child(img_file_directory).put(product_img)
+
+            doc_ref.set({
+                'product_id': doc_ref.id,
+                'product_name': product_name,
+                'product_part': product_part,
+                'product_price': product_price,
+                'stocks': stocks,
+                'product_img_url': storage.child(img_file_directory).get_url(None),
+                'product_img_directory': img_file_directory,
+                })
+
+            return HttpResponse('Success!')
+        else:
+           return HttpResponse('Product Already Exists!')
+        # return redirect('manage_products')
+
+def forgot_password(request):
+    try:
+        if request.method == 'POST':
+            forgot_pass_email = request.POST.get('forgot_pass_email')
+            auth_pyrebase.send_password_reset_email(forgot_pass_email)
+            data = {
+                'success': "Successfully Sent To Your Email",
+            }
+        else:
+            data = {
+                'success': "",
+            }
+    except:
+        data = {
+                'success': "Email Not Found!",
+            }
+
+    return render(request,'forgot_password.html', data)
