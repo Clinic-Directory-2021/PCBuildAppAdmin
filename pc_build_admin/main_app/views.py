@@ -84,17 +84,15 @@ def orders(request):
 def edit_order(request):
     if request.method == 'POST':
         customer_name = request.POST.get('customer_name')
-        customer_order = request.POST.get('customer_order')
         total_price = request.POST.get('total_price')
         selectOrderStatus = request.POST.get('selectOrderStatus')
 
         order_id = request.POST.get('order_id')
-
+        print()
         doc_ref = firestoreDB.collection('orders').document(order_id)
 
         doc_ref.update({
             'customer_name': customer_name,
-            'customer_order': customer_order,
             'total_price': total_price,
             'order_status': selectOrderStatus,
             })
@@ -104,7 +102,7 @@ def edit_order(request):
 def delete_order(request):
     if request.method == 'GET':
         order_id = request.GET.get('order_id')
-
+        print(order_id)
         firestoreDB.collection('orders').document(order_id).delete()
         return redirect('orders')
 
