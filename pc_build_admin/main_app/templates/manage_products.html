@@ -89,7 +89,7 @@
 </div>
 
 <!--Edit product-->
-<div class="dialog w-50" data-role="dialog" id="edit_product">
+<div class="dialog w-50" data-role="dialog" id="edit_product" style="overflow-y: auto;"> 
     <form action="/edit_product/" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
     <div class="dialog-title">Edit product</div>
@@ -122,6 +122,7 @@
             <input type="hidden" id="product_id_edit" name="product_id_edit"/>
             <input type="hidden" name="old_img_directory" id="old_img_directory" >
             <label for="" id="hello"></label>
+
     </div>
     <div class="dialog-actions">
         <button class="button js-dialog-close">Cancel</button>
