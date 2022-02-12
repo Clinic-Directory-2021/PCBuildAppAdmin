@@ -11,7 +11,7 @@ $('#add_product_form').on('submit', function(e){
     formData.append('manufacturer', $('#manufacturer').val());
     formData.append('product_price', $('#product_price').val());
     formData.append('generation', $('#generation').val());
-    formData.append('socket_type', $('#socket_type').val());
+    formData.append('socket_type', $('#frequency').val());
     formData.append('stocks', $('#stocs').val());
 
     formData.append('csrfmiddlewaretoken', $("input[name='csrfmiddlewaretoken']").val());

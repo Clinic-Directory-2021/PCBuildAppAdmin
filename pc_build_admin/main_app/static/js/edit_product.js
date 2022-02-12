@@ -7,7 +7,7 @@ function editProduct(product_id, product_name, product_part, edit_manufacturer,p
     $('#edit_manufacturer').val(edit_manufacturer);
     $('#product_price_edit').val(product_price);
     $('#generation_edit').val(generation);
-    $('#socket_type_edit').val(socket_type);
+    $('#frequency_edit').val(socket_type);
     $('#stocks_edit').val(stocks);
 
     $('#old_img_directory').val(old_directory);

@@ -235,7 +235,7 @@ def edit_product(request):
         product_part_edit = request.POST.get('product_part_edit')
         edit_manufacturer = request.POST.get('edit_manufacturer')
         generation_edit = request.POST.get('generation_edit')
-        socket_type_edit = request.POST.get('socket_type_edit')
+        frequency_edit = request.POST.get('frequency_edit')
         product_price_edit = request.POST.get('product_price_edit')
         stocks_edit = request.POST.get('stocks_edit')
 
@@ -255,7 +255,7 @@ def edit_product(request):
             'product_part': product_part_edit,
             'manufacturer':edit_manufacturer,
             'generation': generation_edit,
-            'socket_type': socket_type_edit,
+            'frequency': frequency_edit,
             'product_price': product_price_edit,
             'stocks': stocks_edit,
             'product_img_url':  storage.child(img_file_directory).get_url(None),
@@ -274,7 +274,7 @@ def add_product(request):
         manufacturer = request.POST.get('manufacturer')
         product_price = request.POST.get('product_price')
         generation = request.POST.get('generation')
-        socket_type = request.POST.get('socket_type')
+        frequency = request.POST.get('frequency')
         stocks = request.POST.get('stocks')
 
         same_product_name = firestoreDB.collection('products').where('product_name' , '==', product_name).stream()
@@ -301,7 +301,7 @@ def add_product(request):
                 'manufacturer': manufacturer,
                 'product_price': product_price,
                 'generation': generation,
-                'socket_type':socket_type,
+                'frequency':frequency,
                 'stocks': stocks,
                 'product_img_url': storage.child(img_file_directory).get_url(None),
                 'product_img_directory': img_file_directory,

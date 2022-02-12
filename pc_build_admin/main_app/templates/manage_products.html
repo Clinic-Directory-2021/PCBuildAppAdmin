@@ -24,7 +24,7 @@
         <th>Product part</th>
         <th>Manufacturer</th>
         <th>Generation</th>
-        <th>Socket Type</th>
+        <th>Frequency</th>
         <th>Price</th>
         <th>Stocks</th>
         <th>Actions</th>
@@ -39,11 +39,11 @@
         <td>{{product.product_part}}</td>
         <td>{{product.manufacturer}}</td>
         <td>{{product.generation}}</td>
-        <td>{{product.socket_type}}</td>
+        <td>{{product.frequency}}</td>
         <td>{{product.product_price}}</td>
         <td>{{product.stocks}}</td>
         <td>
-            <button class="button success" onclick="Metro.dialog.open('#edit_product'), editProduct('{{product.product_id}}', '{{product.product_name}}', '{{product.product_part}}', '{{product.manufacturer}}', '{{product.product_price}}','{{product.stocks}}', '{{product.product_img_directory}}','{{product.generation}}','{{product.socket_type}}')">Edit</button>
+            <button class="button success" onclick="Metro.dialog.open('#edit_product'), editProduct('{{product.product_id}}', '{{product.product_name}}', '{{product.product_part}}', '{{product.manufacturer}}', '{{product.product_price}}','{{product.stocks}}', '{{product.product_img_directory}}','{{product.generation}}','{{product.frequency}}')">Edit</button>
             <button class="button alert" onclick="deleteProduct('{{product.product_id}}' , '{{product.product_img_directory}}')">Delete</button>
         </td>
     </tr>
@@ -81,8 +81,8 @@
                 <input type="text" placeholder="Enter generation" id="generation" name="generation" required/>
             </div>
             <div class="form-group">
-                <label>Socket Type(CPU and Motherboard Only)</label>
-                <input type="text" placeholder="Enter socket type" id="socket_type" name="socket_type" required/>
+                <label>Frequency</label>
+                <input type="text" placeholder="Enter socket type" id="frequency" name="frequency" required/>
             </div>
             <div class="form-group">
                 <label>Price</label>
@@ -128,8 +128,8 @@
                 <input type="text" placeholder="Enter generation" id="generation_edit" name="generation_edit" required/>
             </div>
             <div class="form-group">
-                <label>Socket Type(CPU and Motherboard Only)</label>
-                <input type="text" placeholder="Enter socket type" id="socket_type_edit" name="socket_type_edit" required/>
+                <label>Frequency</label>
+                <input type="text" placeholder="Enter socket type" id="frequency_edit" name="frequency_edit" required/>
             </div>
             <div class="form-group">
                 <label>Price</label>
