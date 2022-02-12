@@ -255,7 +255,7 @@ def edit_product(request):
             'product_part': product_part_edit,
             'manufacturer':edit_manufacturer,
             'generation': int(generation_edit),
-            'frequency': int(requency_edit),
+            'frequency': int(frequency_edit),
             'product_price': product_price_edit,
             'stocks': stocks_edit,
             'product_img_url':  storage.child(img_file_directory).get_url(None),
