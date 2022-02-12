@@ -269,6 +269,8 @@ def add_product(request):
         product_part = request.POST.get('product_part')
         manufacturer = request.POST.get('manufacturer')
         product_price = request.POST.get('product_price')
+        generation = request.POST.get('generation')
+        socket_type = request.POST.get('socket_type')
         stocks = request.POST.get('stocks')
 
         same_product_name = firestoreDB.collection('products').where('product_name' , '==', product_name).stream()
@@ -294,6 +296,8 @@ def add_product(request):
                 'product_part': product_part,
                 'manufacturer': manufacturer,
                 'product_price': product_price,
+                'generation': generation,
+                'socket_type':socket_type,
                 'stocks': stocks,
                 'product_img_url': storage.child(img_file_directory).get_url(None),
                 'product_img_directory': img_file_directory,
